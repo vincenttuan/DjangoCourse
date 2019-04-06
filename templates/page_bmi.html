@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% load tag_library %}
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BMI</title>
+</head>
+<body>
+    <h1>
+        BMI 計算結果<p>
+        {{ name }} 身高: {{ h }} 體重: {{ w }}<p>
+        BMI = {{ bmi|floatformat:-2 }}
+        {% if bmi >= 23 %}
+            過重
+        {% elif bmi < 18 %}
+            過輕
+        {% else %}
+            正常
+        {% endif %}
+        <hr>
+        BMI_str = {{ bmi_str }}
+        {% if bmi_str|to_float >= 23 %}
+            過重
+        {% elif bmi_str|to_float < 18 %}
+            過輕
+        {% else %}
+            正常
+        {% endif %}
+    </h1>
+    {{ now }}<br>
+    {{ now|date:"D d M Y" }}<p>
+    <img src="{% static "images/bmi.jpeg" %}"/>
+
+</body>
+</html>

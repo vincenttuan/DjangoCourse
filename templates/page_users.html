@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Users{% endblock %}
+
+{% block page_title %}
+    Users
+{% endblock %}
+
+{% block page_head %}
+    {{ users }}<p>
+{% endblock %}
+
+{% block page_content %}
+    <table class="pure-table pure-table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Age</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for user in users reversed %}
+                <tr>
+                    <td>{{ forloop.revcounter }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.age }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3">無資料</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block page_foot %}
+    <p></p>版權所有...
+{% endblock %}
