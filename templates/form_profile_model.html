@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block page_title %}
+    Profile
+{% endblock %}
+
+{% block page_content %}
+
+    <form action="/form/profile/model" method="post" class="pure-form">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Post Form Model I</legend>
+            {{ postform_model }}
+            <input type="submit">
+        </fieldset>
+    </form>
+    <hr>
+    <form action="/form/profile/model" method="post" class="pure-form">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Post Form Model II</legend>
+            姓名：{{ postform_model.username }}<p/>
+            密碼：{{ postform_model.password }}<p/>
+            年齡：{{ postform_model.age }}<p/>
+            性別：<input type="radio" value="男" name="sex" checked>男 <input type="radio" value="女" name="sex" >女<p><p/>
+            Email：{{ postform_model.email }}<p/>
+            Order：<input id="remember" type="checkbox" name="order" checked><p/>
+            <input type="submit">
+        </fieldset>
+    </form>
+{% endblock %}
+

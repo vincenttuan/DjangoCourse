@@ -28,5 +28,6 @@ urlpatterns = [
     path('page/polls/', views.page_polls),
     path('page/<str:name>/', views.page_user),
     path('page/bmi/<str:name>/', views.page_bmi),
-    path('form/profile', views.form_profile)
+    path('form/profile', views.form_profile),
+    path('form/profile/model', views.form_profile_model),
 ]

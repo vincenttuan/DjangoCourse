@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile Result{% endblock %}
+
+{% block page_title %}
+    Profile Result
+{% endblock %}
+
+{% block page_content %}
+
+    <form class="pure-form">
+    {% csrf_token %}
+    <fieldset>
+        <legend>User Profile Result</legend>
+        <table class="pure-table pure-table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>username</td><td>{{ username }}</td>
+            </tr>
+            <tr>
+                <td>password</td><td>{{ password }}</td>
+            </tr>
+            <tr>
+                <td>age</td><td>{{ age }}</td>
+            </tr>
+            <tr>
+                <td>sex</td><td>{{ sex }}</td>
+            </tr>
+            <tr>
+                <td>email</td><td>{{ email }}</td>
+            </tr>
+            <tr>
+                <td>order</td><td>{{ order }}</td>
+            </tr>
+        </tbody>
+        </table>
+        <p>
+        <button type="button" class="pure-button pure-button-primary" onclick="history.back()">Back</button>
+    </fieldset>
+    </form>
+
+{% endblock %}
+

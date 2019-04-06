@@ -4,6 +4,8 @@ import random
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from DjangoCourse.form import PostFormModel_Profile
+
 
 def hello(request):
     return HttpResponse("Hello Django !")
@@ -77,8 +79,33 @@ def form_profile(request):
         age = request.POST['age']
         sex = request.POST['sex']
         email = request.POST['email']
-        order = request.POST['order']
+        try:
+            order = request.POST['order']
+        except:
+            order = 'off'
+        return render(request, 'form_profile_result.html', locals())
+    elif request.method == 'GET':
+        return render(request, 'form_profile.html', locals())
 
-    return render(request, 'form_profile.html', locals())
+
+def form_profile_model(request):
+    if request.method == 'POST':
+        postform_model = PostFormModel_Profile(request.POST)
+        if postform_model.is_valid():
+            username       = postform_model.cleaned_data['username']
+            password       = postform_model.cleaned_data['password']
+            age            = postform_model.cleaned_data['age']
+            sex            = postform_model.cleaned_data['sex']
+            email          = postform_model.cleaned_data['email']
+            try:
+                order      = postform_model.cleaned_data['order']
+            except:
+                order = 'off'
+        return render(request, 'form_profile_result.html', locals())
+    elif request.method == 'GET':
+        postform_model = PostFormModel_Profile()
+        return render(request, 'form_profile_model.html', locals())
+
+
 
 
