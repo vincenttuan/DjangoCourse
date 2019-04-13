@@ -19,10 +19,11 @@ def twii(r, pe, pb) :
                 dic.setdefault('殖利率', list[2])
                 dic.setdefault('本益比', list[4])
                 dic.setdefault('股價淨值比', list[5])
+                if float(list[5]) < 1 :
+                    dic.setdefault('建議', '買進')
+                else:
+                    dic.setdefault('建議', '賣出')
                 twii_list.append(dic)
                 #print(d)
 
     return twii_list
-
-twii_list = twii(7, 10, 1)
-print(twii_list)

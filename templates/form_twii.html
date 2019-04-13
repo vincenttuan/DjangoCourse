@@ -7,17 +7,39 @@
 {% endblock %}
 
 {% block page_content %}
-
     <form method="post" action="/form/twii" class="pure-form">
     {% csrf_token %}
     <fieldset>
         <legend>TWII (r, pe, pb)</legend>
-        <input type="number" placeholder="請輸入殖利率" name="r"><p>
-        <input type="number" placeholder="請輸入本益比" name="pe"><p>
-        <input type="number" placeholder="請輸入股價淨值比" name="pb"><p>
+        <input type="number" placeholder="請輸入殖利率" name="r" value="{{ r }}"><p>
+        <input type="number" placeholder="請輸入本益比" name="pe" value="{{ pe }}"><p>
+        <input type="number" placeholder="請輸入股價淨值比" name="pb" value="{{ pb }}"><p>
         <button type="submit" class="pure-button pure-button-primary">Submit</button>
     </fieldset>
     </form>
-
+    <table class="pure-table pure-table-bordered">
+    <thead>
+        <tr>
+            <th>證券代號</th>
+            <th>證券名稱</th>
+            <th>殖利率</th>
+            <th>本益比</th>
+            <th>股價淨值比</th>
+            <th>建議</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for twii in twii_list %}
+        <tr>
+            <td>{{ twii.證券代號 }}</td>
+            <td>{{ twii.證券名稱 }}</td>
+            <td>{{ twii.殖利率 }}</td>
+            <td>{{ twii.本益比 }}</td>
+            <td>{{ twii.股價淨值比 }}</td>
+            <td>{{ twii.建議 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
 {% endblock %}
 

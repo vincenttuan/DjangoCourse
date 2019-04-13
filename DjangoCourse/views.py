@@ -6,6 +6,7 @@ import random
 from django.http import HttpResponse
 from django.shortcuts import render
 from DjangoCourse.form import PostFormModel_Profile
+from DjangoCourse.twii import twii
 
 def hello(request):
     return HttpResponse("Hello Django !")
@@ -108,9 +109,12 @@ def form_profile_model(request):
 
 
 def form_twii(request):
-
+    twii_list = []
     if request.method == 'POST':
-        pass
+        r = request.POST['r']
+        pe = request.POST['pe']
+        pb = request.POST['pb']
+        twii_list = twii(float(r), float(pe), float(pb))
 
     return render(request, 'form_twii.html', locals())
 
