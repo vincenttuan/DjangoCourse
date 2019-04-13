@@ -30,4 +30,7 @@ urlpatterns = [
     path('page/bmi/<str:name>/', views.page_bmi),
     path('form/profile', views.form_profile),
     path('form/profile/model', views.form_profile_model),
+    path('form/twii', views.form_twii),
+    path('twii/getcsv', views.twii_getcsv),
+
 ]

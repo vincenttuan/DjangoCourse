@@ -1,11 +1,11 @@
 import datetime
+import os
+import io
 import random
 
 from django.http import HttpResponse
 from django.shortcuts import render
-
 from DjangoCourse.form import PostFormModel_Profile
-
 
 def hello(request):
     return HttpResponse("Hello Django !")
@@ -106,6 +106,20 @@ def form_profile_model(request):
         postform_model = PostFormModel_Profile()
         return render(request, 'form_profile_model.html', locals())
 
+
+def form_twii(request):
+
+    if request.method == 'POST':
+        pass
+
+    return render(request, 'form_twii.html', locals())
+
+
+def twii_getcsv(request):
+    f = io.open(os.path.join('static/csv', 'BWIBBU_d.csv'), 'r', encoding='utf8')
+    data = f.read()
+    f.close()
+    return HttpResponse(data)
 
 
 

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}TWII{% endblock %}
+
+{% block page_title %}
+    TWII
+{% endblock %}
+
+{% block page_content %}
+
+    <form method="post" action="/form/twii" class="pure-form">
+    {% csrf_token %}
+    <fieldset>
+        <legend>TWII (r, pe, pb)</legend>
+        <input type="number" placeholder="請輸入殖利率" name="r"><p>
+        <input type="number" placeholder="請輸入本益比" name="pe"><p>
+        <input type="number" placeholder="請輸入股價淨值比" name="pb"><p>
+        <button type="submit" class="pure-button pure-button-primary">Submit</button>
+    </fieldset>
+    </form>
+
+{% endblock %}
+
