@@ -1,7 +1,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
-        <title>REST Music</title>
+        <title>REST SheetDB</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script>
@@ -17,7 +17,7 @@
                     }
                 };
                 // 送出訊息
-                var path = "/api/music/?format=json";
+                var path = "https://sheetdb.io/api/v1/2jmhc9wwkp4a2/";
                 console.log(path);
                 xhttp.open("GET", path, true);
                 xhttp.send();
@@ -29,11 +29,11 @@
                         var jsonStr = this.responseText;
                         console.log(jsonStr);
                         document.getElementById("result").innerText = jsonStr;
-                        insertTbrow('[' + jsonStr + ']');
+                        insertTbrow(jsonStr);
                     }
                 };
                 var id = document.getElementById("id").value;
-                var path = "/api/music/" + id + "/";
+                var path = "https://sheetdb.io/api/v1/2jmhc9wwkp4a2/search?id=" + id;
                 console.log(path);
                 xhttp.open("GET", path, true);
                 xhttp.send();
@@ -48,13 +48,19 @@
                         queryAll();
                     }
                 };
-                var path = "/api/music/";
+                var path = "https://sheetdb.io/api/v1/2jmhc9wwkp4a2/";
                 xhttp.open("POST", path, true);
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                var song   = document.getElementById("song").value;
-                var singer = document.getElementById("singer").value;
-                var args   = "song=" + song + "&singer=" + singer;
-                console.log(path + " " + args);
+                var id   = document.getElementById("id").value;
+                var name   = document.getElementById("name").value;
+                var age = document.getElementById("age").value;
+                var json = {
+                  "id": id,
+                  "name": name,
+                  "age": age
+                };
+                var args   = "data=" + JSON.stringify(json);
+                console.log(args);
                 xhttp.send(args);
             }
 
@@ -66,14 +72,20 @@
                         queryAll();
                     }
                 };
-                var id = document.getElementById("id").value;
-                var path = "/api/music/" + id + "/";
+                var id   = document.getElementById("id").value;
+                var path = "https://sheetdb.io/api/v1/2jmhc9wwkp4a2/id/" + id;
                 console.log(path);
                 xhttp.open("PUT", path, true);
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                var song   = document.getElementById("song").value;
-                var singer = document.getElementById("singer").value;
-                var args   = "song=" + song + "&singer=" + singer;
+                var name   = document.getElementById("name").value;
+                var age = document.getElementById("age").value;
+                var json = {
+                  "id": id,
+                  "name": name,
+                  "age": age
+                };
+                var args   = "data=" + JSON.stringify(json);
+                console.log(args);
                 xhttp.send(args);
             }
 
@@ -87,7 +99,7 @@
                     }
                 };
                 var id = document.getElementById("id").value;
-                var path = "/api/music/" + id + "/";
+                var path = "https://sheetdb.io/api/v1/2jmhc9wwkp4a2/id/" + id;
                 console.log(path);
                 xhttp.open("DELETE", path, true);
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -100,27 +112,19 @@
                 deleteRow();
                 for(var i=0; i<json.length; i++) {
                     var newRow = tb.insertRow(tb.rows.length);
-                    newRow.setAttribute("onclick", "edit({0}, '{1}', '{2}')".format(json[i].id, json[i].song, json[i].singer));
+                    newRow.setAttribute("onclick", "edit({0}, '{1}', '{2}')".format(json[i].id, json[i].name, json[i].age));
 
                     var id_newCell  = newRow.insertCell(0);
                     var id_newText  = document.createTextNode(json[i].id);
                     id_newCell.appendChild(id_newText);
 
                     var song_newCell  = newRow.insertCell(1);
-                    var song_newText  = document.createTextNode(json[i].song);
+                    var song_newText  = document.createTextNode(json[i].name);
                     song_newCell.appendChild(song_newText);
 
                     var singer_newCell  = newRow.insertCell(2);
-                    var singer_newText  = document.createTextNode(json[i].singer);
+                    var singer_newText  = document.createTextNode(json[i].age);
                     singer_newCell.appendChild(singer_newText);
-
-                    var last_modify_date_newCell  = newRow.insertCell(3);
-                    var last_modify_date_newText  = document.createTextNode(json[i].last_modify_date);
-                    last_modify_date_newCell.appendChild(last_modify_date_newText);
-
-                    var created_newCell  = newRow.insertCell(4);
-                    var created_newText  = document.createTextNode(json[i].created);
-                    created_newCell.appendChild(created_newText);
 
                 }
 
@@ -137,10 +141,10 @@
                 }
             };
 
-            function edit(id, song, singer) {
+            function edit(id, name, age) {
                 window.document.getElementById("id").value = id;
-                window.document.getElementById("song").value = song;
-                window.document.getElementById("singer").value = singer;
+                window.document.getElementById("name").value = name;
+                window.document.getElementById("age").value = age;
             }
 
             if (!String.prototype.format) {
@@ -163,8 +167,8 @@
             <fieldset>
                 <legend>REST Music</legend>
                 <input type="number" placeholder="請輸入id" name="id" id="id"><p>
-                <input type="text" placeholder="請輸入 song" name="song" id="song"><p>
-                <input type="text" placeholder="請輸入 singer" name="singer" id="singer"><p>
+                <input type="text" placeholder="請輸入 name" name="name" id="name"><p>
+                <input type="text" placeholder="請輸入 age" name="age" id="age"><p>
                 <button type="button" class="pure-button pure-button-primary" onclick="create()">新增</button>
                 <button type="button" class="pure-button pure-button-primary" onclick="update()">修改</button>
                 <button type="button" class="pure-button pure-button-primary" onclick="del()">刪除</button>
@@ -177,10 +181,8 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>song</th>
-                    <th>singer</th>
-                    <th>modify date</th>
-                    <th>created date</th>
+                    <th>name</th>
+                    <th>age</th>
                 </tr>
             </thead>
             <tbody>

@@ -149,8 +149,14 @@ def crud_music(request):
     musics = Music.objects.all()
     return render(request, 'crud_music.html', locals())
 
+
 def rest_music(request):
     return render(request, 'rest_music.html')
+
+
+def rest_sheetdb(request):
+    return render(request, 'rest_sheetdb.html')
+
 
 # Create your views here.
 class MusicViewSet(viewsets.ModelViewSet):
