@@ -10,8 +10,10 @@
                 // 回傳結果
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && (this.status == 200 || this.status == 201)) {
-                        console.log(this.responseText);
-                        document.getElementById("result").innerText = this.responseText;
+                        var jsonStr = this.responseText;
+                        console.log(jsonStr);
+                        document.getElementById("result").innerText = jsonStr;
+                        insertTbrow(jsonStr);
                     }
                 };
                 // 送出訊息
@@ -24,8 +26,10 @@
             function getMusic() {
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && (this.status == 200 || this.status == 201)) {
-                        console.log(this.responseText);
-                        document.getElementById("result").innerText = this.responseText;
+                        var jsonStr = this.responseText;
+                        console.log(jsonStr);
+                        document.getElementById("result").innerText = jsonStr;
+                        insertTbrow('[' + jsonStr + ']');
                     }
                 };
                 var id = document.getElementById("id").value;
@@ -41,6 +45,7 @@
                     if (this.readyState == 4 && (this.status == 200 || this.status == 201)) {
                         console.log(this.responseText);
                         document.getElementById("result").innerText = 'Add : ' + this.responseText;
+                        queryAllMusic();
                     }
                 };
                 var path = "/api/music/";
@@ -58,6 +63,7 @@
                     if (this.readyState == 4 && (this.status == 200 || this.status == 201)) {
                         console.log(this.responseText);
                         document.getElementById("result").innerText = 'Update : ' + this.responseText;
+                        queryAllMusic();
                     }
                 };
                 var id = document.getElementById("id").value;
@@ -77,6 +83,7 @@
                     if (this.readyState == 4 && (this.status == 200 || this.status == 204)) {
                         console.log(this.responseText);
                         document.getElementById("result").innerText = 'Delete OK' + this.responseText;
+                        queryAllMusic();
                     }
                 };
                 var id = document.getElementById("id").value;
@@ -86,6 +93,56 @@
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhttp.send();
             }
+
+            function insertTbrow(jsonStr) {
+                var json = JSON.parse(jsonStr);
+                var tb = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+                deleteRow();
+                for(var i=0; i<json.length; i++) {
+                    var newRow = tb.insertRow(tb.rows.length);
+                    newRow.setAttribute("onclick", "edit(" + json[i].id + ", '" + json[i].song + "', '" + json[i].singer + "')");
+
+                    var id_newCell  = newRow.insertCell(0);
+                    var id_newText  = document.createTextNode(json[i].id);
+                    id_newCell.appendChild(id_newText);
+
+                    var song_newCell  = newRow.insertCell(1);
+                    var song_newText  = document.createTextNode(json[i].song);
+                    song_newCell.appendChild(song_newText);
+
+                    var singer_newCell  = newRow.insertCell(2);
+                    var singer_newText  = document.createTextNode(json[i].singer);
+                    singer_newCell.appendChild(singer_newText);
+
+                    var last_modify_date_newCell  = newRow.insertCell(3);
+                    var last_modify_date_newText  = document.createTextNode(json[i].last_modify_date);
+                    last_modify_date_newCell.appendChild(last_modify_date_newText);
+
+                    var created_newCell  = newRow.insertCell(4);
+                    var created_newText  = document.createTextNode(json[i].created);
+                    created_newCell.appendChild(created_newText);
+
+                }
+
+            }
+
+            function deleteRow () {
+                while (true) {
+                    var tb = document.getElementById("myTable").getElementsByTagName('tbody')[0];
+                    if(tb.rows.length > 0) {
+                        tb.deleteRow(0);
+                    } else {
+                        break;
+                    }
+                }
+            };
+
+            function edit(id, song, singer) {
+                window.document.getElementById("id").value = id;
+                window.document.getElementById("song").value = song;
+                window.document.getElementById("singer").value = singer;
+            }
+
         </script>
     </head>
     <body style="padding: 20px">
@@ -103,6 +160,23 @@
                 <button type="button" class="pure-button pure-button-primary" onclick="queryAllMusic()" >查詢全部</button>
             </fieldset>
         </form>
+
+        <table class="pure-table pure-table-bordered" id="myTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>song</th>
+                    <th>singer</th>
+                    <th>modify date</th>
+                    <th>created date</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+        <p></p>
+        Log:
         <div id="result"></div>
     </body>
 </html>
