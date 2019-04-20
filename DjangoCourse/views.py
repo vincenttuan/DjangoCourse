@@ -128,5 +128,19 @@ def twii_getcsv(request):
 
 
 def crud_music(request):
+    if request.method == 'POST':
+        id = request.POST['id']
+        song = request.POST['song']
+        singer = request.POST['singer']
+        act = request.POST['act']
+        if act == '1':
+            Music.objects.create(song=song, singer=singer)
+        elif act == '2':
+            data = Music.objects.filter(id=int(id))
+            data.update(song=song, singer=singer)
+        elif act == '3':
+            data = Music.objects.filter(id=int(id))
+            data.delete()
+
     musics = Music.objects.all()
     return render(request, 'crud_music.html', locals())

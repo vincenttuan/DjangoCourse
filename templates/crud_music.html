@@ -1,10 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    {{ musics }}
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}Music{% endblock %}
+{% block page_title %}Music{% endblock %}
+
+{% block page_head %}
+    {{ musics }}<p>
+{% endblock %}
+
+{% block page_content %}
+    <form method="post" action="/crud/music" class="pure-form">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Music CRUD</legend>
+            <input type="number" placeholder="id" name="id" id="id"><p>
+            <input type="text" placeholder="please input song" name="song" id="song"><p>
+            <input type="text" placeholder="please input singer" name="singer" id="singer"><p>
+            <input type="radio" value="1" name="act" checked> Add
+            <input type="radio" value="2" name="act"> Update
+            <input type="radio" value="3" name="act"> Delete<p>
+            <button type="submit" class="pure-button pure-button-primary">Submit</button>
+            <button type="Button" class="pure-button pure-button-primary" onclick="location.href='/crud/music'">Query</button>
+        </fieldset>
+    </form>
+    <table class="pure-table pure-table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>song</th>
+                <th>singer</th>
+                <th>modify date</th>
+                <th>created date</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for music in musics reversed %}
+                <tr>
+                    <td>{{ music.id }}</td>
+                    <td>{{ music.song }}</td>
+                    <td>{{ music.singer }}</td>
+                    <td>{{ music.last_modify_date }}</td>
+                    <td>{{ music.created }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">無資料</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block page_foot %}
+    <p></p>版權所有...
+{% endblock %}
