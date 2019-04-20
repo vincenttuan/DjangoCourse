@@ -9,6 +9,10 @@ from DjangoCourse.form import PostFormModel_Profile
 from DjangoCourse.models import Music
 from DjangoCourse.twii import twii
 
+from DjangoCourse.models import Music
+from DjangoCourse.serializers import MusicSerializer
+from rest_framework import viewsets
+
 def hello(request):
     return HttpResponse("Hello Django !")
 
@@ -144,3 +148,11 @@ def crud_music(request):
 
     musics = Music.objects.all()
     return render(request, 'crud_music.html', locals())
+
+def rest_music(request):
+    return render(request, 'rest_music.html')
+
+# Create your views here.
+class MusicViewSet(viewsets.ModelViewSet):
+    queryset = Music.objects.all()
+    serializer_class = MusicSerializer

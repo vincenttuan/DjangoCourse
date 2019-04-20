@@ -1,0 +1,108 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+        <title>REST Music</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script>
+            var xhttp = new XMLHttpRequest();
+            function queryAllMusic() {
+                // 回傳結果
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && (this.status == 200 || this.status == 201)) {
+                        console.log(this.responseText);
+                        document.getElementById("result").innerText = this.responseText;
+                    }
+                };
+                // 送出訊息
+                var path = "/api/music/?format=json";
+                console.log(path);
+                xhttp.open("GET", path, true);
+                xhttp.send();
+            }
+
+            function getMusic() {
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && (this.status == 200 || this.status == 201)) {
+                        console.log(this.responseText);
+                        document.getElementById("result").innerText = this.responseText;
+                    }
+                };
+                var id = document.getElementById("id").value;
+                var path = "/api/music/" + id + "/";
+                console.log(path);
+                xhttp.open("GET", path, true);
+                xhttp.send();
+            }
+
+            function createMusic() {
+                xhttp.onreadystatechange = function () {
+                    console.log(this.readyState + " " + this.status);
+                    if (this.readyState == 4 && (this.status == 200 || this.status == 201)) {
+                        console.log(this.responseText);
+                        document.getElementById("result").innerText = 'Add : ' + this.responseText;
+                    }
+                };
+                var path = "/api/music/";
+                xhttp.open("POST", path, true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                var song   = document.getElementById("song").value;
+                var singer = document.getElementById("singer").value;
+                var args   = "song=" + song + "&singer=" + singer;
+                console.log(path + " " + args);
+                xhttp.send(args);
+            }
+
+            function updateMusic() {
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && (this.status == 200 || this.status == 201)) {
+                        console.log(this.responseText);
+                        document.getElementById("result").innerText = 'Update : ' + this.responseText;
+                    }
+                };
+                var id = document.getElementById("id").value;
+                var path = "/api/music/" + id + "/";
+                console.log(path);
+                xhttp.open("PUT", path, true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                var song   = document.getElementById("song").value;
+                var singer = document.getElementById("singer").value;
+                var args   = "song=" + song + "&singer=" + singer;
+                xhttp.send(args);
+            }
+
+            function deleteMusic() {
+                xhttp.onreadystatechange = function () {
+                    console.log(this.readyState + " " + this.status);
+                    if (this.readyState == 4 && (this.status == 200 || this.status == 204)) {
+                        console.log(this.responseText);
+                        document.getElementById("result").innerText = 'Delete OK' + this.responseText;
+                    }
+                };
+                var id = document.getElementById("id").value;
+                var path = "/api/music/" + id + "/";
+                console.log(path);
+                xhttp.open("DELETE", path, true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send();
+            }
+        </script>
+    </head>
+    <body style="padding: 20px">
+        <form class="pure-form">
+            {% csrf_token %}
+            <fieldset>
+                <legend>REST Music</legend>
+                <input type="number" placeholder="請輸入id" name="id" id="id"><p>
+                <input type="text" placeholder="請輸入 song" name="song" id="song"><p>
+                <input type="text" placeholder="請輸入 singer" name="singer" id="singer"><p>
+                <button type="button" class="pure-button pure-button-primary" onclick="createMusic()">新增</button>
+                <button type="button" class="pure-button pure-button-primary" onclick="updateMusic()">修改</button>
+                <button type="button" class="pure-button pure-button-primary" onclick="deleteMusic()">刪除</button>
+                <button type="button" class="pure-button pure-button-primary" onclick="getMusic()">查詢單筆</button>
+                <button type="button" class="pure-button pure-button-primary" onclick="queryAllMusic()" >查詢全部</button>
+            </fieldset>
+        </form>
+        <div id="result"></div>
+    </body>
+</html>
