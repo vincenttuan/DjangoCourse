@@ -6,6 +6,7 @@ import random
 from django.http import HttpResponse
 from django.shortcuts import render
 from DjangoCourse.form import PostFormModel_Profile
+from DjangoCourse.models import Music
 from DjangoCourse.twii import twii
 
 def hello(request):
@@ -126,4 +127,6 @@ def twii_getcsv(request):
     return HttpResponse(data)
 
 
-
+def crud_music(request):
+    musics = Music.objects.all()
+    return render(request, 'crud_music.html', locals())

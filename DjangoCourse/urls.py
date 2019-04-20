@@ -32,5 +32,5 @@ urlpatterns = [
     path('form/profile/model', views.form_profile_model),
     path('form/twii', views.form_twii),
     path('twii/getcsv', views.twii_getcsv),
-
+    path('crud/music', views.crud_music),
 ]
